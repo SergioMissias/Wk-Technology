@@ -1,0 +1,60 @@
+object dmWkTeste: TdmWkTeste
+  OldCreateOrder = False
+  Height = 327
+  Width = 424
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=bdda0swk'
+      'User_Name=root'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 40
+    Top = 16
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    Left = 152
+    Top = 24
+  end
+  object fdtCliente: TFDTable
+    IndexFieldNames = 'Codigo'
+    Connection = FDConnection1
+    UpdateOptions.UpdateTableName = 'bdda0swk.cliente'
+    TableName = 'bdda0swk.cliente'
+    Left = 56
+    Top = 72
+    object fdtClienteCodigo: TFDAutoIncField
+      FieldName = 'Codigo'
+      Origin = 'Codigo'
+      ProviderFlags = [pfInWhere, pfInKey]
+    end
+    object fdtClienteNome: TStringField
+      FieldName = 'Nome'
+      Origin = 'Nome'
+      Required = True
+      Size = 30
+    end
+    object fdtClienteCidade: TStringField
+      FieldName = 'Cidade'
+      Origin = 'Cidade'
+      Required = True
+      Size = 30
+    end
+    object fdtClienteUF: TStringField
+      FieldName = 'UF'
+      Origin = 'UF'
+      Required = True
+      Size = 2
+    end
+  end
+  object fdqCliente: TFDQuery
+    Connection = FDConnection1
+    Left = 192
+    Top = 88
+  end
+  object fdqProcuraProduto: TFDQuery
+    Connection = FDConnection1
+    Left = 296
+    Top = 72
+  end
+end

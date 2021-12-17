@@ -1,0 +1,18 @@
+unit untGravarPedido;
+
+interface
+
+type
+  TGravaPedido =Class
+
+  private
+
+  public
+
+  function GravarPedido(ocLiente:Tclient
+
+End;
+
+implementation
+
+end.

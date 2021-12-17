@@ -1,0 +1,22 @@
+unit untAcharProdutoPedido;
+
+interface
+type
+   TAchaReg = class
+     private
+
+     public
+
+       function AcharProdutoPedido(Oper:string; Oprod:integer):boolean;
+   end;
+
+implementation
+
+{ TAchaReg }
+
+function TAchaReg.AcharProdutoPedido(Oper: string; Oprod: integer): boolean;
+begin
+
+end;
+
+end.

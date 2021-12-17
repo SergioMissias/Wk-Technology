@@ -1,0 +1,42 @@
+unit untDeletarPedido;
+
+interface
+uses untAchaPedido;
+
+
+type
+  TDeletaPedido= class(TAchaPedido)
+  private
+
+
+  Public
+
+  function DeletaPedido(id:integer):boolean;
+  end;
+
+implementation
+
+
+{ TDeletaPedido }
+
+uses unDmWkTeste;
+
+function TDeletaPedido.DeletaPedido(id: integer): boolean;
+begin
+   Try
+      dmWkTeste.fdqdeletaPedidoST.close;
+      dmWkTeste.fdqDeletaPedidoST.SQL.Clear;
+      dmWkTeste.fdqDeletaPedidoST.SQL.Add('call pr_DeletarPedido(:id) ') ;
+      dmWkTeste.fdqDeletaPedidoST.ParamByName('id').AsInteger:=id;
+      dmWkTeste.fdqDeletaPedidoST.Prepare;
+      dmWkTeste.fdqDeletaPedidoST.ExecSQL;
+      result:=True;
+
+  Except on e.
+
+   End;
+
+
+end;
+
+end.

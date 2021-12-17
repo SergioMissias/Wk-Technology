@@ -1,0 +1,87 @@
+unit untAcharProdutoPedido;
+
+interface
+uses Vcl.Dialogs,untGravaProduto, untClassProduto,System.SysUtils,Vcl.Forms,untGravarPedido,untProcuraProduto;
+type
+   TAchaReg = class(TProcuraProd)
+     private
+
+     public
+
+       function AcharProdutoPedido(Oper:string; Oprodcp:TProcuraProd):boolean;
+   end;
+
+implementation
+
+{ TAchaReg }
+
+uses unDmWkTeste;
+
+function TAchaReg.AcharProdutoPedido(Oper: string; Oprodcp:TProcuraProd): boolean;
+var
+Oproduto:TgravarItem;
+oPedido:TGravaPedido;
+
+xid:integer;
+
+begin
+   Oproduto:=TgravarItem.Create;
+   if MessageDlg('Confirme alteração',mtConfirmation,[mbYes, mbNo], 0 )=0 then
+   begin
+
+    try
+ //    dmWkTeste.cdsProdutosPedido.open;
+     dmWkTeste.cdsProdutosPedido.Edit;
+//     dmWkTeste.cdsProdutosPedidoCodProduto.AsInteger:=OProd.CodProduto;
+//     dmWkTeste.cdsProdutosPedidoDescricao.AsString:=OProd.Descricao;
+     dmWkTeste.cdsProdutosPedidoQuantidade.Asinteger:=OProdcp.quant;
+     dmWkTeste.cdsProdutosPedidoValorUni.AsFloat:=OProdcp.PrecoUni;
+     xid:= dmWkTeste.cdsProdutosPedidoAutoincrem.AsInteger;
+     dmWkTeste.cdsProdutosPedido.Post;
+
+ showmessage(inttostr(xid));
+
+     dmWkTeste.fdqAchaItensPedido.Close;
+     dmWkTeste.fdqAchaItensPedido.SQL.Clear;
+     dmWkTeste.fdqAchaItensPedido.SQL.Add('SELECT  pp.Autoincrem,pp.Codproduto,numeropedido,quantidade,valortotal,valoruni,p.Descricao from pedidosproduto pp ');
+     dmWkTeste.fdqAchaItensPedido.SQL.Add('inner join produtos p on p.CodProduto=pp.CodProduto where pp.Autoincrem=:id');
+  //   SELECT Codproduto,numeropedido,quantidade,valortotal,valoruni from pedidosproduto where NumeroPedido=:idped ');
+     dmWkTeste.fdqAchaItensPedido.ParamByName('id').AsInteger:=xid;
+     dmWkTeste.fdqAchaItensPedido.open;
+       with dmWkTeste.fdqmodificaprod do
+       begin
+         close;
+         sql.Clear;
+         sql.Add('Update pedidosproduto set quantidade=:qt, ValorUni=:vuni, ValorTotal= :Vtot where AutoIncrem=:id');
+         ParamByName('qt').AsFloat:= Oprodcp.Quant;
+         ParamByName('vuni').AsFloat:= Oprodcp.PrecoUni;
+         ParamByName('Vtot').AsFloat:= Oproduto.TotalItens;
+         ParamByName('id').AsInteger:=xid;
+         prepare;
+         ExecSQL;
+       end;
+       oPedido:=TGravaPedido.Create;
+       oPedido.VTotalPedido:=Oproduto.TotalItens;
+       oPedido.AlterarPedido(xid);
+
+       result:=True;
+   Except
+      on E: Exception do
+        begin
+        showmessage('Erro: ' + E.Message );
+        result:=False;
+        exit;
+        end;
+
+   end;
+
+
+
+
+
+   end;
+
+//   dmWkTeste.fdqAchaItensPedido.First;
+end;
+
+end.

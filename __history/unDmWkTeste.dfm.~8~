@@ -1,0 +1,123 @@
+object dmWkTeste: TdmWkTeste
+  OldCreateOrder = False
+  Height = 327
+  Width = 424
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=bdda0swk'
+      'User_Name=root'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 40
+    Top = 16
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    Left = 152
+    Top = 24
+  end
+  object fdtCliente: TFDTable
+    IndexFieldNames = 'Codigo'
+    Connection = FDConnection1
+    UpdateOptions.UpdateTableName = 'bdda0swk.cliente'
+    TableName = 'bdda0swk.cliente'
+    Left = 56
+    Top = 72
+    object fdtClienteCodigo: TFDAutoIncField
+      FieldName = 'Codigo'
+      Origin = 'Codigo'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object fdtClienteNome: TStringField
+      FieldName = 'Nome'
+      Origin = 'Nome'
+      Required = True
+      Size = 30
+    end
+    object fdtClienteCidade: TStringField
+      FieldName = 'Cidade'
+      Origin = 'Cidade'
+      Required = True
+      Size = 30
+    end
+    object fdtClienteUF: TStringField
+      FieldName = 'UF'
+      Origin = 'UF'
+      Required = True
+      Size = 2
+    end
+  end
+  object fdqCliente: TFDQuery
+    Connection = FDConnection1
+    Left = 192
+    Top = 88
+  end
+  object fdqProcuraProduto: TFDQuery
+    Connection = FDConnection1
+    Left = 296
+    Top = 72
+  end
+  object cdsProdutosPedido: TClientDataSet
+    PersistDataPacket.Data = {
+      830000009619E0BD01000000180000000400000000000300000083000A436F64
+      50726F6475746F04000100000000000944657363726963616F01004900000001
+      00055749445448020002001E000A5175616E7469646164650800040000000000
+      0856616C6F72556E69080004000000010007535542545950450200490006004D
+      6F6E6579000000}
+    Active = True
+    Aggregates = <>
+    Params = <>
+    OnCalcFields = cdsProdutosPedidoCalcFields
+    Left = 120
+    Top = 152
+    object cdsProdutosPedidoCodProduto: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'CodProduto'
+    end
+    object cdsProdutosPedidoDescricao: TStringField
+      DisplayWidth = 45
+      FieldName = 'Descricao'
+      Size = 30
+    end
+    object cdsProdutosPedidoQuantidade: TFloatField
+      DisplayWidth = 25
+      FieldName = 'Quantidade'
+    end
+    object cdsProdutosPedidoValorUni: TCurrencyField
+      DisplayWidth = 26
+      FieldName = 'ValorUni'
+    end
+    object cdsProdutosPedidoValorTotal: TCurrencyField
+      DisplayWidth = 19
+      FieldKind = fkCalculated
+      FieldName = 'ValorTotal'
+      Calculated = True
+    end
+  end
+  object dsProdutoPedido: TDataSource
+    DataSet = cdsProdutosPedido
+    Left = 264
+    Top = 144
+  end
+  object fdqGravaPedido: TFDQuery
+    Connection = FDConnection1
+    Left = 184
+    Top = 216
+  end
+  object fdqGravaProdutosGeral: TFDQuery
+    Connection = FDConnection1
+    Left = 296
+    Top = 216
+  end
+  object fdqAchaPedido: TFDQuery
+    Connection = FDConnection1
+    Left = 32
+    Top = 216
+  end
+  object fdqAchaItensPedido: TFDQuery
+    Connection = FDConnection1
+    Left = 80
+    Top = 248
+  end
+end

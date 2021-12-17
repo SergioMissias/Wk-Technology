@@ -1,0 +1,30 @@
+unit untGravaProduto;
+
+interface
+
+uses untClassProduto;
+
+type
+   TgravarItem = class
+
+   private
+
+   public
+
+   function gravarItem(Oproduto:TProduto;Ocli:integer):Boolean;
+
+
+   end;
+
+implementation
+
+{ TgravarItem }
+
+function TgravarItem.gravarItem(Oproduto: TProduto; Ocli:integer): Boolean;
+begin
+
+
+
+end;
+
+end.

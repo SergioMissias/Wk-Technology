@@ -1,0 +1,14 @@
+program prjTesteWk;
+
+uses
+  Vcl.Forms,
+  untPedidos in 'untPedidos.pas' {frmCliente};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmCliente, frmCliente);
+  Application.Run;
+end.

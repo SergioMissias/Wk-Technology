@@ -1,0 +1,20 @@
+unit untProcuraCliente;
+
+interface
+    type
+
+    TProcCliente = Tcliente;
+
+    private
+
+
+
+    public
+
+    function ProcuraCliente(ocod : integer):true;
+
+    End;
+
+implementation
+
+end.

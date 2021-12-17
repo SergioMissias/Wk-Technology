@@ -1,0 +1,17 @@
+unit untProcuraProduto;
+
+interface
+uses untClassProduto;
+
+type
+   TProcuraProd = class(TProduto)
+     private
+
+
+     Public
+
+   end;
+
+implementation
+
+end.

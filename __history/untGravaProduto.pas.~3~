@@ -1,0 +1,49 @@
+unit untGravaProduto;
+
+interface
+
+uses System.SysUtils, untClassProduto,Vcl.Dialogs;
+
+type
+   TgravarItem = class
+
+   private
+
+   public
+
+   function gravarItem(Oproduto:TProduto;Ocli:integer):Boolean;
+
+
+   end;
+
+implementation
+
+{ TgravarItem }
+
+uses unDmWkTeste;
+
+function TgravarItem.gravarItem(Oproduto: TProduto; Ocli:integer): Boolean;
+var
+ OProd: TProduto;
+begin
+   OProd:=TProduto.Create;
+   OProd:=Oproduto;
+   try
+     dmWkTeste.cdsProdutosPedido.open;
+     dmWkTeste.cdsProdutosPedido.Append;
+     dmWkTeste.cdsProdutosPedidoCodProduto.AsInteger:=OProd.CodProduto;
+     dmWkTeste.cdsProdutosPedidoDescricao.AsString:=OProd.Descricao;
+     dmWkTeste.cdsProdutosPedidoQuantidade.Asinteger:=OProd.quant;
+     dmWkTeste.cdsProdutosPedidoValorUni.AsFloat:=OProd.PrecoUni;
+     dmWkTeste.cdsProdutosPedido.Post;
+   Except
+      on E: Exception do
+        begin
+          raise showmessage('Erro: ' + E.Message );
+         Close;
+        end;
+
+   end;
+end;
+
+end.

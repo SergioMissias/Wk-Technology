@@ -1,0 +1,18 @@
+program prjTesteWk;
+
+uses
+  Vcl.Forms,
+  untPedidos in 'untPedidos.pas' {frmCliente},
+  unDmWkTeste in 'unDmWkTeste.pas' {dmWkTeste: TDataModule},
+  untClassClientepas in 'untClassClientepas.pas',
+  untProcuraCliente in 'untProcuraCliente.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmCliente, frmCliente);
+  Application.CreateForm(TdmWkTeste, dmWkTeste);
+  Application.Run;
+end.

@@ -1,0 +1,17 @@
+unit untClassProduto;
+
+interface
+
+type
+
+   TProduto = class
+   private
+
+   public
+
+
+   end;
+
+implementation
+
+end.
