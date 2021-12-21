@@ -36,6 +36,7 @@ type
     cdsProdutosPedidoValorTotal: TCurrencyField;
     cdsProdutosPedidoDescricao: TStringField;
     fdqDeletaPedidoST: TFDQuery;
+    dsProcuraCliente: TDataSource;
     procedure cdsProdutosPedidoCalcFields(DataSet: TDataSet);
   private
     { Private declarations }

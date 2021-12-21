@@ -14,7 +14,9 @@ interface
     public
 
 
-    function ProcuraCliente(ocod : integer):boolean;
+    function ProcuraCliente(ocod : integer):boolean;overload;
+
+    function ProcuraCliente(ocod : string):boolean; overload;
 
     End;
 
@@ -47,6 +49,30 @@ begin
       else
          result:=false;
    end;
+
+end;
+
+function TProcCliente.ProcuraCliente(ocod: string): boolean;
+var
+oSql:string;
+begin
+   with dmWkTeste.fdqCliente do
+   begin
+      close;
+        sql.Clear;
+      oSql:=    'Select Codigo,Nome,Cidade, UF from Cliente where Nome like :oCod' ;
+      sql.add(oSql);
+      ParamByName('oCod').AsString:= '%'+ocod+'%';
+      open;
+      if RecordCount>0 then
+      begin
+
+          result:=true;
+      end
+      else
+         result:=false;
+   end;
+
 
 end;
 

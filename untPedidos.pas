@@ -3,10 +3,10 @@ unit untPedidos;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Messages, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
-  Vcl.ToolWin, Data.DB, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids,unDmWkTeste, untProcuraCliente,untProcuraProduto
-  , System.UITypes;
+  Vcl.ToolWin, Data.DB, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids,unDmWkTeste, untProcuraCliente,
+  untProcuraProduto,System.UITypes;
 
 type
   TfrmCliente = class(TForm)
@@ -40,6 +40,7 @@ type
     btnDeletarPedido: TBitBtn;
     sbProcurarCliente: TSpeedButton;
     dbProdutoPedido: TDBGrid;
+    DBGrid1: TDBGrid;
     procedure FormShow(Sender: TObject);
     procedure sbProcurarClienteClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -55,12 +56,14 @@ type
     procedure dbProdutoPedidoKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure btnDeletarPedidoClick(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
 
     oProd:TProcuraProd;
   public
     { Public declarations }
+
   end;
 
 var
@@ -71,7 +74,7 @@ implementation
 {$R *.dfm}
 
 uses untGravaProduto, untGravarPedido, untAchaPedido, untAcharProdutoPedido,
-  untDeletarPedido;
+  untDeletarPedido, System.SysUtils;
 
 
 //uses unDmWkTeste, untProcuraCliente;
@@ -204,6 +207,25 @@ if edtAchaPedido.Text<>'' then
   else
   edtCliente.SetFocus;
   pnlProcPed.Visible:= True;
+end;
+
+procedure TfrmCliente.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+if Key = #13 then
+begin
+  lblNomeCliente.Caption:=dmWkTeste.fdqCliente.FieldByName('Nome').AsString;
+  lblCidade.Caption:=dmWkTeste.fdqCliente.FieldByName('Cidade').AsString;
+  lblUF.Caption:=dmWkTeste.fdqCliente.FieldByName('UF').AsString;
+  edtCliente.Text:=dmWkTeste.fdqCliente.FieldByName('Codigo').AsInteger.ToString;
+  DBGrid1.Visible:=False;
+  dmWkTeste.cdsProdutosPedido.close;
+  dmWkTeste.cdsProdutosPedido.CreateDataSet;
+  edtCodProduto.ReadOnly:=False;
+  edtCodProduto.SetFocus;
+  btnInserirProd.Caption:='Inserir';
+  btnGravarPedido.Enabled:=True;
+
+end;
 end;
 
 procedure TfrmCliente.dbProdutoPedidoKeyDown(Sender: TObject; var Key: Word;
@@ -340,41 +362,62 @@ begin
 end;
 
 procedure TfrmCliente.sbProcurarClienteClick(Sender: TObject);
+const
+
+letter =['a'..'z','A'..'Z'];// ['A' .. 'Z'];
+
 var
+
 oCli:TProcCliente;
+i:integer;
+lt:string;
+ch:Boolean;
+
 Begin
+ch:=false;
 if edtCliente.Text<>'' then
-begin
- oCli:=TprocCliente.create;
- if ocli.ProcuraCliente(strtoint(edtCliente.Text)) = true then
- begin
-    lblNomeCliente.Caption:=oCli.Nome;
-    lblCidade.Caption:=oCli.Cidade;
-    lblUF.Caption:=oCli.UF;
-    dmWkTeste.cdsProdutosPedido.close;
-    dmWkTeste.cdsProdutosPedido.CreateDataSet;
-    edtCodProduto.ReadOnly:=False;
-    edtCodProduto.SetFocus;
-    btnInserirProd.Caption:='Inserir';
-    btnGravarPedido.Enabled:=True;
+  begin
+   oCli:=TprocCliente.create;
 
- end
- else
- Begin
- MessageDlg('Código de Cliente não Cadastrado!',mtError,mbOKCancel,0);
- edtCliente.SetFocus;
- end;
-end
+   for i:=1 to length(edtCliente.text) do
+   begin
+     if (edtCliente.text[i] in letter) then
+     begin
+       if ocli.ProcuraCliente(edtCliente.Text) then
+       begin
+         DBGrid1.Visible:=true;
+         DBGrid1.SetFocus;
+         ch:=true;
+         Break;
+       end;
+     end;
+   end;
+    if ch=false then
+    begin
+       if ocli.ProcuraCliente(strtoint(edtCliente.Text)) = true then
+       begin
+          lblNomeCliente.Caption:=oCli.Nome;
+          lblCidade.Caption:=oCli.Cidade;
+          lblUF.Caption:=oCli.UF;
+          dmWkTeste.cdsProdutosPedido.close;
+          dmWkTeste.cdsProdutosPedido.CreateDataSet;
+          edtCodProduto.ReadOnly:=False;
+          edtCodProduto.SetFocus;
+          btnInserirProd.Caption:='Inserir';
+          btnGravarPedido.Enabled:=True;
+
+       end
+       else
+       Begin
+         MessageDlg('Código de Cliente não Cadastrado!',mtError,mbOKCancel,0);
+         edtCliente.SetFocus;
+       end;
+    end;
+  end
 else
-begin
-  pnlProcPed.Visible:=true;
-  edtAchaPedido.SetFocus;
+  begin
+    pnlProcPed.Visible:=true;
+    edtAchaPedido.SetFocus;
+  end;
 end;
-
-
-
-
-
-end;
-
 end.

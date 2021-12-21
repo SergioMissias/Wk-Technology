@@ -76,7 +76,6 @@ object frmCliente: TfrmCliente
         Top = 30
         Width = 121
         Height = 21
-        NumbersOnly = True
         TabOrder = 0
         OnChange = edtClienteChange
         OnExit = sbProcurarClienteClick
@@ -129,6 +128,20 @@ object frmCliente: TfrmCliente
           TabOrder = 1
           OnClick = btnPdAntigosClick
         end
+      end
+      object DBGrid1: TDBGrid
+        Left = 264
+        Top = 3
+        Width = 418
+        Height = 120
+        DataSource = dmWkTeste.dsProcuraCliente
+        TabOrder = 2
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnKeyPress = DBGrid1KeyPress
       end
     end
     object Panel2: TPanel

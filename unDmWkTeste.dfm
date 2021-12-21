@@ -6,6 +6,7 @@ object dmWkTeste: TdmWkTeste
     Params.Strings = (
       'Database=bdda0swk'
       'User_Name=root'
+      'Password=Sm385211'
       'DriverID=MySQL')
     Connected = True
     LoginPrompt = False
@@ -132,5 +133,10 @@ object dmWkTeste: TdmWkTeste
     Connection = FDConnection1
     Left = 328
     Top = 152
+  end
+  object dsProcuraCliente: TDataSource
+    DataSet = fdqCliente
+    Left = 352
+    Top = 32
   end
 end
